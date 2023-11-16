@@ -7,16 +7,16 @@ import { useTheme } from 'tamagui';
 //   DefaultTheme,
 // } from '@react-navigation/native';
 import { GoBackBtn } from './GoBackBtn';
-import { SignInPage } from '../pages/SignIn';
-import { SignUpPage } from '../pages/SignUp';
-import { HomePage } from '../pages/tabs/Home';
+import { SignInPage } from '../pages/authStack/SignIn';
+import { SignUpPage } from '../pages/authStack/SignUp';
+import { BottomTabs } from '../pages/bottomTabs/Tabs';
 
 const Stack = createNativeStackNavigator();
 
 const Router = React.memo(({ colorScheme }) => {
   const theme = useTheme();
   const headerBackgroundColor = theme.backgroundStrong.get();
-  const titleAndSeparatorColor = theme.color.get();
+  const titleColor = theme.color.get();
 
   return (
     <NavigationContainer>
@@ -26,23 +26,24 @@ const Router = React.memo(({ colorScheme }) => {
             backgroundColor: headerBackgroundColor,
           },
           headerTitleStyle: {
-            color: titleAndSeparatorColor,
+            color: titleColor,
           },
           headerTitleAlign: 'center',
           headerTintColor: '#f9ad4a',
           headerLeft: ({ tintColor }) =>
-            route.name === 'home' ? null : (
+            route.name === 'profile' ? null : (
               <GoBackBtn
                 navigation={navigation}
                 tintColor={tintColor}
               />
             ),
           animation: 'fade',
+          headerShadowVisible: false,
         })}>
         <Stack.Screen
-          name="home"
-          component={HomePage}
-          options={{ title: 'Главная' }}
+          name="profile"
+          component={BottomTabs}
+          options={{ title: 'Профиль', headerShown: false }}
         />
         <Stack.Screen
           name="sign-in"

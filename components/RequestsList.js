@@ -1,12 +1,5 @@
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {
-  Sheet,
-  YGroup,
-  ListItem,
-  Separator,
-  YStack,
-  H6,
-} from 'tamagui';
+import { Sheet, YGroup, ListItem, Separator, YStack, H6 } from 'tamagui';
 
 const RequestsList = React.memo(({ isOpen, setIsOpen }) => {
   const insets = useSafeAreaInsets();
@@ -15,32 +8,44 @@ const RequestsList = React.memo(({ isOpen, setIsOpen }) => {
     <>
       <Sheet
         open={isOpen}
-        snapPoints={[85, 50]}
+        snapPoints={[85]}
         onOpenChange={() => setIsOpen(false)}
+        dismissOnSnapToBottom
+        disableDrag
         themeInverse>
         <Sheet.Handle />
+        <Sheet.Overlay />
         <Sheet.ScrollView
           showsVerticalScrollIndicator={false}
           borderRadius={insets.bottom}
+          borderBottomStartRadius={0}
+          borderBottomEndRadius={0}
+          borderBottomLeftRadius={0}
+          borderBottomRightRadius={0}
           backgroundColor="$backgroundStrong"
           bordered
-          stickyHeaderIndices={[0]}
-          stickyHeaderHiddenOnScroll
-        >
+          stickyHeaderIndices={[0]}>
           <YStack
-              h={insets.bottom * 2}
-              justifyContent="center"
-              alignItems="center"
-          backgroundColor="$backgroundStrong"
-          >
-              <H6>Мои обращения</H6>
+            h={insets.bottom * 2}
+            justifyContent="center"
+            alignItems="center"
+            backgroundColor="$backgroundStrong">
+            <H6>Мои обращения</H6>
           </YStack>
-          <YStack pb={insets.bottom} >
-            <YGroup separator={<Separator />} bordered borderRadius={insets.bottom}>
+          <YStack>
+            <YGroup
+              separator={<Separator />}
+              bordered
+              borderRadius={insets.bottom}
+              borderBottomStartRadius={0}
+              borderBottomEndRadius={0}
+              borderBottomLeftRadius={0}
+              borderBottomRightRadius={0}>
               <YGroup.Item>
                 <ListItem
                   pressTheme
                   title="Нет горячей воды"
+                  borderRadius={0}
                 />
               </YGroup.Item>
               <YGroup.Item>
@@ -53,6 +58,66 @@ const RequestsList = React.memo(({ isOpen, setIsOpen }) => {
                 <ListItem
                   pressTheme
                   title="Проблема с вентиляцией"
+                />
+              </YGroup.Item>
+              <YGroup.Item>
+                <ListItem
+                  pressTheme
+                  title="Мусор на детской площадке"
+                />
+              </YGroup.Item>
+              <YGroup.Item>
+                <ListItem
+                  pressTheme
+                  title="Мусор на детской площадке"
+                />
+              </YGroup.Item>
+              <YGroup.Item>
+                <ListItem
+                  pressTheme
+                  title="Мусор на детской площадке"
+                />
+              </YGroup.Item>
+              <YGroup.Item>
+                <ListItem
+                  pressTheme
+                  title="Мусор на детской площадке"
+                />
+              </YGroup.Item>
+              <YGroup.Item>
+                <ListItem
+                  pressTheme
+                  title="Мусор на детской площадке"
+                />
+              </YGroup.Item>
+              <YGroup.Item>
+                <ListItem
+                  pressTheme
+                  title="Мусор на детской площадке"
+                />
+              </YGroup.Item>
+              <YGroup.Item>
+                <ListItem
+                  pressTheme
+                  title="Мусор на детской площадке"
+                />
+              </YGroup.Item>
+              <YGroup.Item>
+                <ListItem
+                  pressTheme
+                  title="Мусор на детской площадке"
+                />
+              </YGroup.Item>
+              <YGroup.Item>
+                <ListItem
+                  pressTheme
+                  title="Мусор на детской площадке"
+                />
+              </YGroup.Item>
+              <YGroup.Item>
+                <ListItem
+                  pressTheme
+                  title="Мусор на детской площадке"
                 />
               </YGroup.Item>
               <YGroup.Item>

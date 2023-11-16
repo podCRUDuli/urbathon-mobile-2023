@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { YStack, Text, Input, Button } from 'tamagui';
 
-import { UniversalView } from '../components/UniversalView';
+import { UniversalView } from '../../components/UniversalView';
 
 const SignUpPage = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -47,7 +47,7 @@ const SignUpPage = ({ navigation }) => {
           />
         </YStack>
         <Button onPress={() => console.log({ username, password })}>
-          Зарегистрироваться
+          Создать аккаунт
         </Button>
       </YStack>
     </UniversalView>

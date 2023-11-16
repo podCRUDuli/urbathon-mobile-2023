@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { YStack, XStack, Input, Button, Text } from 'tamagui';
 
-import { UniversalView } from '../components/UniversalView';
+import GosusligiIcon from '../../assets/gosusligi.svg';
+import { UniversalView } from '../../components/UniversalView';
 
 const SignInPage = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -37,7 +38,21 @@ const SignInPage = ({ navigation }) => {
           />
         </YStack>
         <Button onPress={() => console.log({ username, password })}>
-          Войти
+          Войти в аккаунт
+        </Button>
+        <Button
+          backgroundColor="white"
+          color="#0d4cd3"
+          borderWidth={1}
+          borderColor="#0d4cd3"
+          h={48}
+          icon={
+            <GosusligiIcon
+              height={28}
+              width={28}
+            />
+          }>
+          Войти через Госуслуги
         </Button>
       </YStack>
       <XStack

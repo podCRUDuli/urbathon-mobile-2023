@@ -1,24 +1,27 @@
 import { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Button } from 'tamagui';
 
 import CloseCrossIcon from '../../assets/close-cross.svg';
 import MailIcon from '../../assets/mail.svg';
 import { RequestsList } from '../../components/RequestsList';
 import { UniversalView } from '../../components/UniversalView';
 
-const HomePage = ({ navigation }) => {
+const NewsPage = ({ navigation }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: ({ tintColor }) =>
         isOpen ? (
-          <TouchableOpacity onPress={() => setIsOpen(false)}>
+          <TouchableOpacity
+            onPress={() => setIsOpen(false)}
+            style={{ right: 15 }}>
             <CloseCrossIcon fill={tintColor} />
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity onPress={() => setIsOpen(true)}>
+          <TouchableOpacity
+            onPress={() => setIsOpen(true)}
+            style={{ right: 15 }}>
             <MailIcon fill={tintColor} />
           </TouchableOpacity>
         ),
@@ -27,9 +30,6 @@ const HomePage = ({ navigation }) => {
 
   return (
     <UniversalView>
-      {/* <Button onPress={() => navigation.navigate('sign-in')}>
-        Авторизоваться
-      </Button> */}
       <RequestsList
         isOpen={isOpen}
         setIsOpen={setIsOpen}
@@ -38,4 +38,4 @@ const HomePage = ({ navigation }) => {
   );
 };
 
-export { HomePage };
+export { NewsPage };
