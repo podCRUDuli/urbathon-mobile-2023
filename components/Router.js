@@ -8,10 +8,12 @@ import { useTheme } from 'tamagui';
 // } from '@react-navigation/native';
 import { GoBackBtn } from './GoBackBtn';
 import { SignInPage } from '../pages/SignIn';
+import { SignUpPage } from '../pages/SignUp';
 import { HomePage } from '../pages/tabs/Home';
+
 const Stack = createNativeStackNavigator();
 
-const Router = ({ colorScheme }) => {
+const Router = React.memo(({ colorScheme }) => {
   const theme = useTheme();
   const headerBackgroundColor = theme.backgroundStrong.get();
   const titleAndSeparatorColor = theme.color.get();
@@ -26,6 +28,7 @@ const Router = ({ colorScheme }) => {
           headerTitleStyle: {
             color: titleAndSeparatorColor,
           },
+          headerTitleAlign: 'center',
           headerTintColor: '#f9ad4a',
           headerLeft: ({ tintColor }) =>
             route.name === 'home' ? null : (
@@ -46,9 +49,14 @@ const Router = ({ colorScheme }) => {
           component={SignInPage}
           options={{ title: 'Войти' }}
         />
+        <Stack.Screen
+          name="sign-up"
+          component={SignUpPage}
+          options={{ title: 'Зарегистрироваться' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
+});
 
 export { Router };

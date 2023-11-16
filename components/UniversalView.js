@@ -1,7 +1,7 @@
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Stack } from 'tamagui';
 
-const UniversalView = ({
+const UniversalView = React.memo(({
   children,
   safe = false,
   xCenter = false,
@@ -24,6 +24,6 @@ const UniversalView = ({
       {children}
     </Stack>
   );
-};
+});
 
 export { UniversalView };

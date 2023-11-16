@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { YStack, XStack, Input, Button, Text } from 'tamagui';
+import { YStack, Text, Input, Button } from 'tamagui';
 
 import { UniversalView } from '../components/UniversalView';
 
-const SignInPage = ({ navigation }) => {
+const SignUpPage = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const insets = useSafeAreaInsets();
+  const [rePassword, setRePassword] = useState('');
 
   return (
     <UniversalView yCenter>
@@ -30,32 +29,29 @@ const SignInPage = ({ navigation }) => {
           <Input
             placeholder="Введите пароль"
             inputMode="text"
-            autoComplete="current-password"
+            autoComplete="new-password"
             autoCapitalize="none"
             onChangeText={setPassword}
             value={password}
           />
         </YStack>
+        <YStack>
+          <Text>Повторите пароль</Text>
+          <Input
+            placeholder="Введите пароль ещё раз"
+            inputMode="text"
+            autoComplete="new-password"
+            autoCapitalize="none"
+            onChangeText={setRePassword}
+            value={rePassword}
+          />
+        </YStack>
         <Button onPress={() => console.log({ username, password })}>
-          Войти
+          Зарегистрироваться
         </Button>
       </YStack>
-      <XStack
-        flexWrap="wrap"
-        space="$1"
-        bottom={insets.bottom}
-        alignSelf="center"
-        position="absolute">
-        <Text>Ещё нет аккаунта?</Text>
-        <Text
-          onPress={() => navigation.navigate('sign-up')}
-          color="#f9ad4a"
-          pressStyle={{ scale: 0.95 }}>
-          Зарегистрируйтесь.
-        </Text>
-      </XStack>
     </UniversalView>
   );
 };
 
-export { SignInPage };
+export { SignUpPage };
