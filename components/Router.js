@@ -1,5 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StatusBar } from 'expo-status-bar';
 import { useTheme } from 'tamagui';
 
 // import {
@@ -56,6 +57,7 @@ const Router = React.memo(({ colorScheme }) => {
           options={{ title: 'Зарегистрироваться' }}
         />
       </Stack.Navigator>
+      <StatusBar backgroundColor={headerBackgroundColor} />
     </NavigationContainer>
   );
 });

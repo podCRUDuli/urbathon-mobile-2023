@@ -1,12 +1,41 @@
 import { useState } from 'react';
 import { YStack, Text, Input, Button } from 'tamagui';
 
+import { useAuth } from '../../authProvider';
 import { UniversalView } from '../../components/UniversalView';
 
 const SignUpPage = ({ navigation }) => {
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
+  const { state, api } = useAuth();
+
+  if (state.isAuthenticated) {
+    navigation.navigate('profile');
+  }
+
+  const register = async () => {
+    if (name === '' || email === '' || password === '' || rePassword === '') {
+      alert('Заполните все поля');
+      return;
+    }
+
+    if (password !== rePassword) {
+      alert('Пароли не совпадают');
+      return;
+    }
+
+    api
+      .register(name, email, password)
+      .then(() => {
+        alert('Успешная регистрация');
+        navigation.navigate('sign-in');
+      })
+      .catch(() => {
+        alert('Ошибка при регистрации');
+      });
+  };
 
   return (
     <UniversalView yCenter>
@@ -14,14 +43,25 @@ const SignUpPage = ({ navigation }) => {
         space="$2.5"
         paddingHorizontal="$4">
         <YStack>
-          <Text>Имя пользователя</Text>
+          <Text>ФИО</Text>
           <Input
-            placeholder="Введите имя пользователя"
+            placeholder="Введите ФИО"
             inputMode="text"
-            autoComplete="username"
+            autoComplete="name"
             autoCapitalize="none"
-            onChangeText={setUsername}
-            value={username}
+            onChangeText={setName}
+            value={name}
+          />
+        </YStack>
+        <YStack>
+          <Text>Электронный адрес</Text>
+          <Input
+            placeholder="Введите эл.адрес"
+            inputMode="text"
+            autoComplete="email"
+            autoCapitalize="none"
+            onChangeText={setEmail}
+            value={email}
           />
         </YStack>
         <YStack>
@@ -33,6 +73,7 @@ const SignUpPage = ({ navigation }) => {
             autoCapitalize="none"
             onChangeText={setPassword}
             value={password}
+            secureTextEntry
           />
         </YStack>
         <YStack>
@@ -44,11 +85,10 @@ const SignUpPage = ({ navigation }) => {
             autoCapitalize="none"
             onChangeText={setRePassword}
             value={rePassword}
+            secureTextEntry
           />
         </YStack>
-        <Button onPress={() => console.log({ username, password })}>
-          Создать аккаунт
-        </Button>
+        <Button onPress={() => register()}>Создать аккаунт</Button>
       </YStack>
     </UniversalView>
   );

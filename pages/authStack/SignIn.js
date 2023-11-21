@@ -3,12 +3,29 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { YStack, XStack, Input, Button, Text } from 'tamagui';
 
 import GosusligiIcon from '../../assets/gosusligi.svg';
+import { useAuth } from '../../authProvider';
 import { UniversalView } from '../../components/UniversalView';
 
 const SignInPage = ({ navigation }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const insets = useSafeAreaInsets();
+  const { state, api } = useAuth();
+
+  if (state.isAuthenticated) {
+    navigation.navigate('profile');
+  }
+
+  const login = async () => {
+    if (email === '' && password === '') {
+      alert('Заполните все поля');
+      return;
+    }
+
+    api.login(email, password).catch((error) => {
+      alert('Неверный эл.адрес или пароль');
+    });
+  };
 
   return (
     <UniversalView yCenter>
@@ -16,14 +33,14 @@ const SignInPage = ({ navigation }) => {
         space="$2.5"
         paddingHorizontal="$4">
         <YStack>
-          <Text>Имя пользователя</Text>
+          <Text>Эл.адрес</Text>
           <Input
-            placeholder="Введите имя пользователя"
+            placeholder="Введите эл.адрес"
             inputMode="text"
-            autoComplete="username"
+            autoComplete="email"
             autoCapitalize="none"
-            onChangeText={setUsername}
-            value={username}
+            onChangeText={setEmail}
+            value={email}
           />
         </YStack>
         <YStack>
@@ -35,11 +52,10 @@ const SignInPage = ({ navigation }) => {
             autoCapitalize="none"
             onChangeText={setPassword}
             value={password}
+            secureTextEntry
           />
         </YStack>
-        <Button onPress={() => console.log({ username, password })}>
-          Войти в аккаунт
-        </Button>
+        <Button onPress={() => login()}>Войти в аккаунт</Button>
         <Button
           backgroundColor="white"
           color="#0d4cd3"
