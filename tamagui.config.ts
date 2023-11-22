@@ -1,8 +1,10 @@
 import { createAnimations } from '@tamagui/animations-react-native';
 import { createInterFont } from '@tamagui/font-inter';
 import { shorthands } from '@tamagui/shorthands';
-import { themes, tokens } from '@tamagui/themes';
+import { tokens } from '@tamagui/themes';
 import { createTamagui } from 'tamagui';
+
+import { themes } from './customThemes';
 
 const animations = createAnimations({
   bouncy: {

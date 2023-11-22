@@ -16,7 +16,7 @@ const BottomTabs = React.memo(({ colorScheme }) => {
   const theme = useTheme();
   const headerBackgroundColor = theme.backgroundStrong.get();
   const titleColor = theme.color.get();
-  const highlightColor = '#f9ad4a';
+  const highlightColor = theme.highlightColor.get();
 
   return (
     <Tabs.Navigator

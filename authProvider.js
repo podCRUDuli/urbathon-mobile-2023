@@ -91,7 +91,7 @@ function AuthProvider({ children }) {
             );
             dispatch({
               type: LOGIN_SUCCESS,
-              payload: { name: response.data.Name, email: response.data.Email },
+              payload: { name: response.data.Name, email: response.data.email },
             });
             resolve();
           } catch (error) {

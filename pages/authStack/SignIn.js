@@ -80,7 +80,7 @@ const SignInPage = ({ navigation }) => {
         <Text>Ещё нет аккаунта?</Text>
         <Text
           onPress={() => navigation.navigate('sign-up')}
-          color="#f9ad4a"
+          color="$highlightColor"
           pressStyle={{ scale: 0.95 }}>
           Зарегистрируйтесь.
         </Text>
