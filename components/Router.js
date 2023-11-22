@@ -18,6 +18,7 @@ const Router = React.memo(({ colorScheme }) => {
   const theme = useTheme();
   const headerBackgroundColor = theme.backgroundStrong.get();
   const titleColor = theme.color.get();
+  const highlightColor = theme.highlightColor.get();
 
   return (
     <NavigationContainer>
@@ -30,7 +31,7 @@ const Router = React.memo(({ colorScheme }) => {
             color: titleColor,
           },
           headerTitleAlign: 'center',
-          headerTintColor: '#f9ad4a',
+          headerTintColor: highlightColor,
           headerLeft: ({ tintColor }) =>
             route.name === 'profile' ? null : (
               <GoBackBtn
