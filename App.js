@@ -19,19 +19,20 @@ SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
   const colorScheme = useColorScheme();
-
-  const [loaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
   });
 
   useEffect(() => {
-    if (loaded) {
+    if (fontsLoaded || fontError) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded, fontError]);
 
-  if (!loaded) return null;
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   return (
     <AuthProvider>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { YStack, XStack, Input, Button, Text } from 'tamagui';
 
@@ -9,29 +9,32 @@ import { UniversalView } from '../../components/UniversalView';
 const SignInPage = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const blankFields = Boolean(email === '' || password === '');
   const insets = useSafeAreaInsets();
   const { state, api } = useAuth();
 
-  if (state.isAuthenticated) {
-    navigation.navigate('profile');
-  }
+  useEffect(() => {
+    if (state.isAuthenticated) {
+      navigation.goBack();
+    }
+  }, [state.isAuthenticated]);
 
   const login = async () => {
-    if (email === '' && password === '') {
+    if (blankFields) {
       alert('Заполните все поля');
       return;
     }
 
-    api.login(email, password).catch((error) => {
+    api.login(email, password).catch(() => {
       alert('Неверный эл.адрес или пароль');
     });
   };
 
   return (
-    <UniversalView yCenter>
-      <YStack
-        space="$2.5"
-        paddingHorizontal="$4">
+    <UniversalView
+      yCenter
+      safe>
+      <YStack space="$2.5">
         <YStack>
           <Text>Эл.адрес</Text>
           <Input

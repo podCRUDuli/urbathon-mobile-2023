@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { ListItem } from 'tamagui';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { H6, ListItem } from 'tamagui';
 
 import CloseCrossIcon from '../../assets/close-cross.svg';
 import MailIcon from '../../assets/mail.svg';
+import { useAuth } from '../../authProvider';
 import { RequestsList } from '../../components/RequestsList';
 import { UniversalView } from '../../components/UniversalView';
 import { formatDate } from '../../utils/format';
@@ -19,24 +21,21 @@ const axiosInstance = axios.create({
   baseURL: 'http://176.222.53.146:8080',
 });
 
-const NewsPage = ({ navigation }) => {
+const NewsListPage = ({ navigation }) => {
+  const insets = useSafeAreaInsets();
   const [isOpen, setIsOpen] = useState(false);
   const [news, setNews] = useState([]);
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [total, setTotal] = useState(0);
+  const [nextPage, setNextPage] = useState(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { state } = useAuth();
 
   const fetchNews = async () => {
     setIsRefreshing(true);
-    setTotal(0);
-    setPage(1);
-
     try {
       const response = await axiosInstance.get(`/api/news/`);
+      setNextPage(response.data.next_page_url);
       setNews(response.data.items);
-      setTotal(response.data.total);
     } catch (error) {
       console.error(error);
     } finally {
@@ -51,30 +50,34 @@ const NewsPage = ({ navigation }) => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: ({ tintColor }) =>
-        isOpen ? (
-          <TouchableOpacity
-            onPress={() => setIsOpen(false)}
-            style={{ right: 15 }}>
-            <CloseCrossIcon fill={tintColor} />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={() => setIsOpen(true)}
-            style={{ right: 15 }}>
-            <MailIcon fill={tintColor} />
-          </TouchableOpacity>
-        ),
+        state.isAuthenticated ? (
+          isOpen ? (
+            <TouchableOpacity
+              onPress={() => setIsOpen(false)}
+              style={{ right: 15 }}>
+              <CloseCrossIcon fill={tintColor} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={() => setIsOpen(true)}
+              style={{ right: 15 }}>
+              <MailIcon fill={tintColor} />
+            </TouchableOpacity>
+          )
+        ) : null,
     });
-  }, [navigation, isOpen]);
+  }, [navigation, isOpen, state.isAuthenticated]);
 
   const loadMoreNews = debounce(() => {
-    if (!isLoading && news.length < total) {
+    if (!isLoading && nextPage) {
       setIsLoading(true);
       axiosInstance
-        .get(`/api/news?page=${page + 1}&page_size=${pageSize}`)
+        .get(nextPage)
         .then((response) => {
           setNews((prevData) => [...prevData, ...response.data.items]);
-          setPage(page + 1);
+          setNextPage(response.data.next_page_url);
+        })
+        .finally(() => {
           setIsLoading(false);
         });
     }
@@ -83,7 +86,7 @@ const NewsPage = ({ navigation }) => {
   const renderItem = useCallback(
     ({ item }) => (
       <ListItem
-        title={item.title}
+        title={<H6>{item.title}</H6>}
         subTitle={formatDate(item.date)}
         bordered
         borderRadius={10}
@@ -103,29 +106,36 @@ const NewsPage = ({ navigation }) => {
   }, [isLoading]);
 
   return (
-    <UniversalView>
-      <FlatList
-        data={news}
-        keyExtractor={(item) => item.id.toString()}
-        onEndReached={loadMoreNews}
-        onEndReachedThreshold={0.1}
-        renderItem={renderItem}
-        onRefresh={fetchNews}
-        refreshing={isRefreshing}
-        ItemSeparatorComponent={memoizedSeparator}
-        showsVerticalScrollIndicator={false}
-        ListFooterComponent={memoizedFooter}
-        removeClippedSubviews
-        windowSize={10}
-        updateCellsBatchingPeriod={30}
-        contentContainerStyle={{ paddingVertical: 10 }}
-      />
+    <>
+      <UniversalView>
+        <FlatList
+          data={news}
+          keyExtractor={(item) => item.id.toString()}
+          onEndReached={loadMoreNews}
+          onEndReachedThreshold={0.1}
+          renderItem={renderItem}
+          onRefresh={fetchNews}
+          refreshing={isRefreshing}
+          ItemSeparatorComponent={memoizedSeparator}
+          showsVerticalScrollIndicator={false}
+          ListFooterComponent={memoizedFooter}
+          removeClippedSubviews
+          windowSize={10}
+          updateCellsBatchingPeriod={30}
+          contentContainerStyle={{
+            paddingVertical: 10,
+            paddingLeft: insets.left,
+            paddingRight: insets.right,
+          }}
+        />
+      </UniversalView>
       <RequestsList
+        navigation={navigation}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
       />
-    </UniversalView>
+    </>
   );
 };
 
-export { NewsPage };
+export { NewsListPage };
