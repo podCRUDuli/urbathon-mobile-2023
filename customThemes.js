@@ -1,4 +1,4 @@
-import { createThemeBuilder } from '@tamagui/theme-builder';
+import { createSoftenMask, createThemeBuilder } from '@tamagui/theme-builder';
 
 const themesBuilder = createThemeBuilder()
   .addPalettes({
@@ -45,6 +45,9 @@ const themesBuilder = createThemeBuilder()
       highlightColor: 9,
     },
   })
+  .addMasks({
+    soften: createSoftenMask(),
+  })
   .addThemes({
     light: {
       template: 'baseLight',
@@ -54,6 +57,11 @@ const themesBuilder = createThemeBuilder()
     dark: {
       template: 'baseDark',
       palette: 'universalPalette',
+    },
+  })
+  .addChildThemes({
+    subtle: {
+      mask: 'soften',
     },
   });
 export const themes = themesBuilder.build();

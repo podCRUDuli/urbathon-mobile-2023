@@ -1,14 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
 import { useTheme } from 'tamagui';
 
-import { NewsPage } from './News';
+import { NewsListPage } from './NewsList';
+import NewsIcon from '../../assets/news.svg';
+import ProfileIcon from '../../assets/profile.svg';
 import { ProfilePage } from '../authStack/Profile';
-
-// import {
-//   DarkTheme,
-//   DefaultTheme,
-// } from '@react-navigation/native';
 
 const Tabs = createBottomTabNavigator();
 
@@ -30,19 +26,25 @@ const BottomTabs = React.memo(({ colorScheme }) => {
         tabBarStyle: {
           backgroundColor: headerBackgroundColor,
         },
-        headerTitleAlign: 'center',
         headerTintColor: highlightColor,
         tabBarActiveTintColor: highlightColor,
+        headerTitleAlign: 'center',
       })}>
       <Tabs.Screen
-        name="news"
-        component={NewsPage}
-        options={{ title: 'Новости' }}
+        name="news-list"
+        component={NewsListPage}
+        options={{
+          title: 'Новости',
+          tabBarIcon: ({ color }) => <NewsIcon fill={color} />,
+        }}
       />
       <Tabs.Screen
-        name="profile"
+        name="auth-stack"
         component={ProfilePage}
-        options={{ title: 'Профиль' }}
+        options={{
+          title: 'Профиль',
+          tabBarIcon: ({ color }) => <ProfileIcon fill={color} />,
+        }}
       />
     </Tabs.Navigator>
   );

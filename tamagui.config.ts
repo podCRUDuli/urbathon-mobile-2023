@@ -29,9 +29,9 @@ const animations = createAnimations({
 const headingFont = createInterFont();
 const bodyFont = createInterFont();
 
-const config = createTamagui({
+const appConfig = createTamagui({
   animations,
-  defaultTheme: 'dark',
+  defaultTheme: 'light',
   shouldAddPrefersColorThemes: false,
   shorthands,
   fonts: {
@@ -42,10 +42,10 @@ const config = createTamagui({
   tokens,
 });
 
-export type AppConfig = typeof config;
+export type AppConfig = typeof appConfig;
 
 declare module 'tamagui' {
   interface TamaguiCustomConfig extends AppConfig {}
 }
 
-export default config;
+export default appConfig;

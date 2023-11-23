@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { YStack, Text, Input, Button } from 'tamagui';
 
 import { useAuth } from '../../authProvider';
@@ -9,14 +9,19 @@ const SignUpPage = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
+  const blankFields = Boolean(
+    name === '' || email === '' || password === '' || rePassword === '',
+  );
   const { state, api } = useAuth();
 
-  if (state.isAuthenticated) {
-    navigation.navigate('profile');
-  }
+  useEffect(() => {
+    if (state.isAuthenticated) {
+      navigation.goBack();
+    }
+  }, [state.isAuthenticated]);
 
   const register = async () => {
-    if (name === '' || email === '' || password === '' || rePassword === '') {
+    if (blankFields) {
       alert('Заполните все поля');
       return;
     }
@@ -38,10 +43,10 @@ const SignUpPage = ({ navigation }) => {
   };
 
   return (
-    <UniversalView yCenter>
-      <YStack
-        space="$2.5"
-        paddingHorizontal="$4">
+    <UniversalView
+      yCenter
+      safe>
+      <YStack space="$2.5">
         <YStack>
           <Text>ФИО</Text>
           <Input
