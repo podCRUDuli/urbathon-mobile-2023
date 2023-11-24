@@ -2,8 +2,15 @@ import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
-import React, { useEffect, useState, useMemo } from 'react';
-import { Alert, Dimensions, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  Alert,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+  Modal,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
@@ -49,6 +56,18 @@ const CreateAppealPage = ({ navigation }) => {
   const { height, width } = Dimensions.get('window');
   const LATITUDE_DELTA = 0.01;
   const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
+  const [isSended, setIsSended] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const openModal = (imageUri) => {
+    setSelectedImage(imageUri);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   const hasUnsavedChanges = Boolean(
     title !== '' ||
@@ -106,7 +125,7 @@ const CreateAppealPage = ({ navigation }) => {
   useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
-        if (!hasUnsavedChanges) {
+        if (!hasUnsavedChanges || isSended) {
           return;
         }
 
@@ -150,17 +169,18 @@ const CreateAppealPage = ({ navigation }) => {
         name: photo.name,
       });
     });
-    console.log(appealTypes);
 
-    console.log(formData);
     try {
       const response = await axiosInstance.post(`/api/appeal/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
+      await setIsSended(true);
+      await navigation.goBack();
+      alert('Обращение успешно отправлено');
     } catch {
-      alert('Ошибка при создании обращения');
+      alert('Ошибка при отправлении обращения');
     }
   };
 
@@ -198,6 +218,7 @@ const CreateAppealPage = ({ navigation }) => {
       center: {
         ...userLocation.coords,
       },
+      altitude: 500,
     });
   };
 
@@ -210,18 +231,10 @@ const CreateAppealPage = ({ navigation }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 0.5,
       aspect: [4, 3],
-      allowsMultipleSelection: true,
+      allowsEditing: true,
     });
 
     if (result.assets) {
-      // const formData = new FormData();
-      // result.assets.forEach((asset) => {
-      //   formData.append('image', {
-      //     uri: asset.uri,
-      //     type: 'image/jpeg',
-      //     name: asset.fileName,
-      //   });
-      // });
       setPhotos([
         ...photos,
         ...result.assets.map((item) => ({
@@ -360,7 +373,8 @@ const CreateAppealPage = ({ navigation }) => {
                 <View
                   key={i.toString()}
                   w={Dimensions.get('window').width / 3 - 10}
-                  h={Dimensions.get('window').width / 3 - 10}>
+                  h={Dimensions.get('window').width / 3 - 10}
+                  onLongPress={() => openModal(item)}>
                   <Image
                     source={{ uri: item.uri }}
                     style={{ width: '100%', height: '100%' }}
@@ -376,6 +390,7 @@ const CreateAppealPage = ({ navigation }) => {
             {photos.length ? (
               <Button
                 flex={1}
+                backgroundColor="red"
                 onPress={() => setPhotos([])}>
                 Очистить
               </Button>
@@ -432,6 +447,36 @@ const CreateAppealPage = ({ navigation }) => {
           </TouchableOpacity>
         </YStack>
       </YStack>
+      <Modal
+        animationType="fade"
+        visible={modalVisible}
+        onRequestClose={closeModal}
+        transparent>
+        <TouchableWithoutFeedback onPress={closeModal}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: `${backgroundStrongColor}80`,
+            }}>
+            <View
+              w={Dimensions.get('screen').width - 20}
+              h={
+                Dimensions.get('screen').height -
+                insets.top -
+                insets.bottom -
+                20
+              }>
+              <Image
+                source={{ uri: selectedImage?.uri }}
+                style={{ flex: 1, width: '100%', height: '100%' }}
+                resizeMode="contain"
+              />
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </ScrollView>
   );
 };
