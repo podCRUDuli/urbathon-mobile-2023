@@ -6,9 +6,10 @@ import {
   FlatList,
   TouchableOpacity,
   View,
+  RefreshControl,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { H6, ListItem } from 'tamagui';
+import { H6, ListItem, useTheme } from 'tamagui';
 
 import CloseCrossIcon from '../../assets/close-cross.svg';
 import MailIcon from '../../assets/mail.svg';
@@ -22,6 +23,8 @@ const axiosInstance = axios.create({
 });
 
 const NewsListPage = ({ navigation }) => {
+  const theme = useTheme();
+  const color = theme.color.get();
   const insets = useSafeAreaInsets();
   const [isOpen, setIsOpen] = useState(false);
   const [news, setNews] = useState([]);
@@ -45,7 +48,7 @@ const NewsListPage = ({ navigation }) => {
 
   useEffect(() => {
     fetchNews();
-  }, []);
+  }, [navigation]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -114,8 +117,6 @@ const NewsListPage = ({ navigation }) => {
           onEndReached={loadMoreNews}
           onEndReachedThreshold={0.1}
           renderItem={renderItem}
-          onRefresh={fetchNews}
-          refreshing={isRefreshing}
           ItemSeparatorComponent={memoizedSeparator}
           showsVerticalScrollIndicator={false}
           ListFooterComponent={memoizedFooter}
@@ -127,6 +128,13 @@ const NewsListPage = ({ navigation }) => {
             paddingLeft: insets.left,
             paddingRight: insets.right,
           }}
+          refreshControl={
+            <RefreshControl
+              onRefresh={fetchNews}
+              refreshing={isRefreshing}
+              tintColor={color}
+            />
+          }
         />
       </UniversalView>
       <RequestsList
