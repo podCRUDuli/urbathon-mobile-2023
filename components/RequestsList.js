@@ -73,7 +73,7 @@ const RequestsList = React.memo(({ navigation, isOpen, setIsOpen }) => {
     return (
       <ListItem
         pressTheme
-        title={item.description}
+        title={item.title}
       />
     );
   }, []);
@@ -88,7 +88,7 @@ const RequestsList = React.memo(({ navigation, isOpen, setIsOpen }) => {
         disableDrag>
         <Sheet.Overlay backgroundColor="transparent" />
         <Sheet.Frame
-          borderRadius={insets.bottom}
+          borderRadius={30}
           borderBottomStartRadius={0}
           borderBottomEndRadius={0}
           borderBottomLeftRadius={0}
@@ -99,10 +99,12 @@ const RequestsList = React.memo(({ navigation, isOpen, setIsOpen }) => {
             stickyHeaderIndices={[0]}
             ListHeaderComponent={
               <XStack
-                h={insets.bottom * 2}
+                h={60}
                 backgroundColor="$background"
                 paddingHorizontal={insets.bottom}
-                alignItems="center">
+                alignItems="center"
+                borderBottomWidth={1}
+                borderColor="$borderColor">
                 <View flex={1} />
                 <H6
                   flex={1}
