@@ -3,12 +3,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { useTheme } from 'tamagui';
 
-// import {
-//   DarkTheme,
-//   DefaultTheme,
-// } from '@react-navigation/native';
 import { GoBackBtn } from './GoBackBtn';
+import { AppealDetailsPage } from '../pages/authStack/AppealDetails';
 import { CreateAppealPage } from '../pages/authStack/CreateAppeal';
+import { NewsDetailsPage } from '../pages/authStack/NewsDetails';
 import { SignInPage } from '../pages/authStack/SignIn';
 import { SignUpPage } from '../pages/authStack/SignUp';
 import { BottomTabs } from '../pages/bottomTabs/Tabs';
@@ -47,6 +45,20 @@ const Router = React.memo(({ colorScheme }) => {
           name="profile"
           component={BottomTabs}
           options={{ title: 'Профиль', headerShown: false }}
+        />
+        <Stack.Screen
+          name="news-details"
+          component={NewsDetailsPage}
+          options={({ route }) => ({
+            title: route.params.title,
+          })}
+        />
+        <Stack.Screen
+          name="appeal-details"
+          component={AppealDetailsPage}
+          options={({ route }) => ({
+            title: route.params.title,
+          })}
         />
         <Stack.Screen
           name="create-appeal"
