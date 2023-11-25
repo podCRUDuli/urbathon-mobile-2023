@@ -93,7 +93,13 @@ const NewsListPage = ({ navigation }) => {
         subTitle={formatDate(item.date)}
         bordered
         borderRadius={10}
-        pressStyle={{ backgroundColor: '$backgroundPress' }}>
+        pressStyle={{ backgroundColor: '$backgroundPress' }}
+        onPress={() =>
+          navigation.navigate('news-details', {
+            newsId: item.id,
+            title: item.title,
+          })
+        }>
         {item.body}
       </ListItem>
     ),
