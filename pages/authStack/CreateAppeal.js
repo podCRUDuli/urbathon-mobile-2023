@@ -22,7 +22,6 @@ import {
   XStack,
   Button,
   View,
-  Theme,
   Text,
 } from 'tamagui';
 
@@ -231,7 +230,7 @@ const CreateAppealPage = ({ navigation }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 0.5,
       aspect: [4, 3],
-      allowsEditing: true,
+      allowsMultipleSelection: true,
     });
 
     if (result.assets) {
@@ -252,7 +251,7 @@ const CreateAppealPage = ({ navigation }) => {
       setAddress(`г. ${res[0].city}, ${res[0].district} р-н, ${res[0].name}`);
     } else {
       setAddress(
-        `г. ${res[0].city}, ${res[0].district} р-н, ${res[0].street}, ${res[0].streetNumber}`,
+        `г. ${res[0].city}, ${res[0].district} р-н, ${res[0].name}, ${res[0].streetNumber}`,
       );
     }
   };
@@ -442,7 +441,7 @@ const CreateAppealPage = ({ navigation }) => {
               bottom: 10,
               right: 10,
             }}
-            onPress={() => goToMyLocation()}>
+            onPress={() => (userLocation ? goToMyLocation() : {})}>
             <MyLocationIcon fill="black" />
           </TouchableOpacity>
         </YStack>

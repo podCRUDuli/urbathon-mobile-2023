@@ -1998,7 +1998,7 @@
 
 "@react-native-picker/picker@2.4.10":
   version "2.4.10"
-  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.4.10.tgz#339c7bfc6e1d9a5e934122eaaa7767dc1c5fb725"
+  resolved "https://registry.npmjs.org/@react-native-picker/picker/-/picker-2.4.10.tgz"
   integrity sha512-EvAlHmPEPOwvbP6Pjg/gtDV3XJzIjIxr10fXFNlX5r9HeHw582G1Zt2o8FLyB718nOttgj8HYUTGxvhu4N65sQ==
 
 "@react-native/assets-registry@^0.72.0":
@@ -2282,6 +2282,15 @@
     "@tamagui/use-presence" "1.77.1"
     "@tamagui/web" "1.77.1"
 
+"@tamagui/animate-presence@^1.79.1":
+  version "1.79.1"
+  resolved "https://registry.npmjs.org/@tamagui/animate-presence/-/animate-presence-1.79.1.tgz"
+  integrity sha512-vZ/fu93FnaO8zKQ3sOU0vatTDjr2bAADt7nqpZv7rCpS6N0ZVKeAChIz7DXrjK8tXNg66Ex6PyBpLL2q+lAvnw==
+  dependencies:
+    "@tamagui/use-force-update" "1.79.1"
+    "@tamagui/use-presence" "1.79.1"
+    "@tamagui/web" "1.79.1"
+
 "@tamagui/animate@1.77.1":
   version "1.77.1"
   resolved "https://registry.npmjs.org/@tamagui/animate/-/animate-1.77.1.tgz"
@@ -2315,6 +2324,14 @@
   dependencies:
     "@tamagui/use-presence" "1.77.1"
     "@tamagui/web" "1.77.1"
+
+"@tamagui/animations-react-native@^1.79.1":
+  version "1.79.1"
+  resolved "https://registry.npmjs.org/@tamagui/animations-react-native/-/animations-react-native-1.79.1.tgz"
+  integrity sha512-AJratujHMv8AwiNYjitDHqfOLSUcbXJksNFstRbPgI/m+zqwlvpBbxuOfoqOTe11mimfVm5wJfopPHyRy6Stmw==
+  dependencies:
+    "@tamagui/use-presence" "1.79.1"
+    "@tamagui/web" "1.79.1"
 
 "@tamagui/aria-hidden@1.77.1":
   version "1.77.1"
@@ -2404,6 +2421,11 @@
   resolved "https://registry.npmjs.org/@tamagui/compose-refs/-/compose-refs-1.77.1.tgz"
   integrity sha512-pNKTXdBpibQEcP7e7AuEymodtx70+N5HS8Yerqd193z2T7Ijzph5T9P/F5JfON0w3z6o2j/NAtpd2ayUBn3ILA==
 
+"@tamagui/compose-refs@1.79.1":
+  version "1.79.1"
+  resolved "https://registry.npmjs.org/@tamagui/compose-refs/-/compose-refs-1.79.1.tgz"
+  integrity sha512-c/Ximgfz4amAUyIkswRdMmtpKeo0I5POMoHtayq+ZMvmMYZkk/oQf2JJf9nqZBn9wfC7HbJ7vHCfXISZk0CthA==
+
 "@tamagui/config@^1.76.0":
   version "1.77.1"
   resolved "https://registry.npmjs.org/@tamagui/config/-/config-1.77.1.tgz"
@@ -2424,6 +2446,11 @@
   version "1.77.1"
   resolved "https://registry.npmjs.org/@tamagui/constants/-/constants-1.77.1.tgz"
   integrity sha512-7ZOJiBi8vpYdMtxG14c82a0osxD2xDy7ARXFAp3yAfGcVT+kXJRof3qcLGCjmKXxX2REWMqgTlC9wzeTBswC0Q==
+
+"@tamagui/constants@1.79.1":
+  version "1.79.1"
+  resolved "https://registry.npmjs.org/@tamagui/constants/-/constants-1.79.1.tgz"
+  integrity sha512-LuRQ02fnxY90F1UXy+mm/++leQLZifLS23qktVkRVlCYuYkZlynF2j5y8muh2tYFDMGvK3/47PXQ2gMURj4zqQ==
 
 "@tamagui/core@1.77.1":
   version "1.77.1"
@@ -2597,6 +2624,14 @@
     "@tamagui/constants" "1.77.1"
     "@tamagui/simple-hash" "1.77.1"
 
+"@tamagui/helpers@1.79.1":
+  version "1.79.1"
+  resolved "https://registry.npmjs.org/@tamagui/helpers/-/helpers-1.79.1.tgz"
+  integrity sha512-93o0wcdtL2uM2Nb5iK7EN5H3Z6uZN2FDH4MinBvsC7w90ktecPCZ/NXcTDUiT7Uo/e7edGGjRUWxWQUmXpnnJA==
+  dependencies:
+    "@tamagui/constants" "1.79.1"
+    "@tamagui/simple-hash" "1.79.1"
+
 "@tamagui/image@1.77.1":
   version "1.77.1"
   resolved "https://registry.npmjs.org/@tamagui/image/-/image-1.77.1.tgz"
@@ -2641,6 +2676,13 @@
   version "1.77.1"
   resolved "https://registry.npmjs.org/@tamagui/normalize-css-color/-/normalize-css-color-1.77.1.tgz"
   integrity sha512-7Ta/C/keHeFmDSkSIRd+lBlHfF945sZ9UPk6o0fSWgE7JBf4oeF98BA2RNDe7z9+y//qg1FfedUyilFdfhkrgg==
+  dependencies:
+    "@react-native/normalize-color" "^2.1.0"
+
+"@tamagui/normalize-css-color@1.79.1":
+  version "1.79.1"
+  resolved "https://registry.npmjs.org/@tamagui/normalize-css-color/-/normalize-css-color-1.79.1.tgz"
+  integrity sha512-Rlz+fymicm0MYCMT6uxOcPm2LQ9wITagtU7qe4igll4Jbbkb2WzgYzRsGRA03ZI+dD5WIAoAkZ28TVbfhZwfFQ==
   dependencies:
     "@react-native/normalize-color" "^2.1.0"
 
@@ -2836,6 +2878,11 @@
   resolved "https://registry.npmjs.org/@tamagui/simple-hash/-/simple-hash-1.77.1.tgz"
   integrity sha512-IX3F2MQe+aIG+QzVu5sf7sCf81sYeNLvminB9DyJyUX2N970Z3wmBoQWtpgWZC9PugPlV2RFuDShBhVel98r6w==
 
+"@tamagui/simple-hash@1.79.1":
+  version "1.79.1"
+  resolved "https://registry.npmjs.org/@tamagui/simple-hash/-/simple-hash-1.79.1.tgz"
+  integrity sha512-XGklGjGwe5iKR6brDBJFJ48pDu04svqA6Nv/4bUBo/lbrlHESmz5S1mp66XkvcX09hr4eIr+S9i7ECKNhCS4QA==
+
 "@tamagui/slider@1.77.1":
   version "1.77.1"
   resolved "https://registry.npmjs.org/@tamagui/slider/-/slider-1.77.1.tgz"
@@ -2925,6 +2972,11 @@
   resolved "https://registry.npmjs.org/@tamagui/timer/-/timer-1.77.1.tgz"
   integrity sha512-jtxGGnMVHgJpLweIVPSdTpklUNZvmnQOEcP4hGkdBq8sbOMFDh7vn2QCQeFKXWgZCnZlRN3lJb8PxhEt7Aj3Eg==
 
+"@tamagui/timer@1.79.1":
+  version "1.79.1"
+  resolved "https://registry.npmjs.org/@tamagui/timer/-/timer-1.79.1.tgz"
+  integrity sha512-MrbdHICUow6jDRM/7Q4IQegd66cQ+d84g2xnsVNHFESg53rb50O3VHDg8vwP+q8zDS9jjwKDkNKUgNacX5IB+Q==
+
 "@tamagui/toggle-group@1.77.1":
   version "1.77.1"
   resolved "https://registry.npmjs.org/@tamagui/toggle-group/-/toggle-group-1.77.1.tgz"
@@ -2989,6 +3041,13 @@
   dependencies:
     "@tamagui/constants" "1.77.1"
 
+"@tamagui/use-did-finish-ssr@1.79.1":
+  version "1.79.1"
+  resolved "https://registry.npmjs.org/@tamagui/use-did-finish-ssr/-/use-did-finish-ssr-1.79.1.tgz"
+  integrity sha512-vr4QtjL9srCdrTSdxtTa3mN9YBM2t337HYrW8bPCBgJREIj3hnX63JHdcKrWdOtvcKtZ5CC0FjE5HKUzpMT7SA==
+  dependencies:
+    "@tamagui/constants" "1.79.1"
+
 "@tamagui/use-direction@1.77.1":
   version "1.77.1"
   resolved "https://registry.npmjs.org/@tamagui/use-direction/-/use-direction-1.77.1.tgz"
@@ -3011,6 +3070,11 @@
   resolved "https://registry.npmjs.org/@tamagui/use-force-update/-/use-force-update-1.77.1.tgz"
   integrity sha512-AeiH9IO/ZvnP0X1oeRgAAGrIQOwScQKUVH89rH4KjpstlA4qx5uS64CDzS6st4dB4T9hge9ok//ntdptfudx+Q==
 
+"@tamagui/use-force-update@1.79.1":
+  version "1.79.1"
+  resolved "https://registry.npmjs.org/@tamagui/use-force-update/-/use-force-update-1.79.1.tgz"
+  integrity sha512-V8PYOltwnQqd7bF3xUj8btbGhES42ibkGALsj6H5h28MYZVHNzRyFQsp33PylY5SQzjc0oSk3mj28W8v9p3Piw==
+
 "@tamagui/use-keyboard-visible@1.77.1":
   version "1.77.1"
   resolved "https://registry.npmjs.org/@tamagui/use-keyboard-visible/-/use-keyboard-visible-1.77.1.tgz"
@@ -3022,6 +3086,13 @@
   integrity sha512-4XgrURE2k4zqf9Na3lFUvafcOjtwYL+8YOhjYvOLppHEkMwpq7DXo6d4UEBXsiJ71V8Y9S7sRX8yLYPzG57WPA==
   dependencies:
     "@tamagui/web" "1.77.1"
+
+"@tamagui/use-presence@1.79.1":
+  version "1.79.1"
+  resolved "https://registry.npmjs.org/@tamagui/use-presence/-/use-presence-1.79.1.tgz"
+  integrity sha512-Ni8OCrnnb47tO/Zi1h1hA7x+YN6i30AvH+kHbNAqpED8Oi2YAFEtUwynx+9A7wcq7UgWncdNMZRl00ZA8dMPHQ==
+  dependencies:
+    "@tamagui/web" "1.79.1"
 
 "@tamagui/use-previous@1.77.1":
   version "1.77.1"
@@ -3055,6 +3126,19 @@
     "@tamagui/use-did-finish-ssr" "1.77.1"
     "@tamagui/use-force-update" "1.77.1"
 
+"@tamagui/web@1.79.1":
+  version "1.79.1"
+  resolved "https://registry.npmjs.org/@tamagui/web/-/web-1.79.1.tgz"
+  integrity sha512-A8t+/PR/miXu00IZt5mxfTr4zaiUyefor27BLpLIrudZAKcKY7/qdZ88KnFCGbWYt9CwSE2F4RDqn1XPdJslWw==
+  dependencies:
+    "@tamagui/compose-refs" "1.79.1"
+    "@tamagui/constants" "1.79.1"
+    "@tamagui/helpers" "1.79.1"
+    "@tamagui/normalize-css-color" "1.79.1"
+    "@tamagui/timer" "1.79.1"
+    "@tamagui/use-did-finish-ssr" "1.79.1"
+    "@tamagui/use-force-update" "1.79.1"
+
 "@trysound/sax@0.2.0":
   version "0.2.0"
   resolved "https://registry.npmjs.org/@trysound/sax/-/sax-0.2.0.tgz"
@@ -3062,7 +3146,7 @@
 
 "@types/geojson@^7946.0.10":
   version "7946.0.13"
-  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.13.tgz#e6e77ea9ecf36564980a861e24e62a095988775e"
+  resolved "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.13.tgz"
   integrity sha512-bmrNrgKMOhM3WsafmbGmC+6dsF2Z308vLFsQ3a/bT8X8Sv5clVYpPars/UPq+sAaJP+5OoLAYgwbkS5QEJdLUQ==
 
 "@types/hammerjs@^2.0.36":
@@ -5030,12 +5114,12 @@ expo-font@~11.4.0:
 
 expo-image-loader@~4.3.0:
   version "4.3.0"
-  resolved "https://registry.yarnpkg.com/expo-image-loader/-/expo-image-loader-4.3.0.tgz#d897b4d4f1838faa8291c36f00b99c2b36a6ac5c"
+  resolved "https://registry.npmjs.org/expo-image-loader/-/expo-image-loader-4.3.0.tgz"
   integrity sha512-2kqJIO+oYM8J3GbvTUHLqTSpt1dLpOn/X0eB4U4RTuzz/faj8l/TyQELsMBLlGAkweNUuG9LqznbaBz+WuSFEw==
 
 expo-image-picker@~14.3.2:
   version "14.3.2"
-  resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-14.3.2.tgz#5ae2f36fe518a10c8fe82e5ff2ee735c14817cfc"
+  resolved "https://registry.npmjs.org/expo-image-picker/-/expo-image-picker-14.3.2.tgz"
   integrity sha512-xr/YeQMIYheXecWP033F2SPwpBlBR5xVCx7YSfSCTH8Y9pw7Z886agqKGbS9QBVGlzJ5qecJktZ6ASSzeslDVg==
   dependencies:
     expo-image-loader "~4.3.0"
@@ -7859,7 +7943,7 @@ react-native-gesture-handler@~2.12.0:
 
 react-native-maps@1.7.1:
   version "1.7.1"
-  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-1.7.1.tgz#e0b9d68542b4b59b5ca3df375ada7c860fb41f2e"
+  resolved "https://registry.npmjs.org/react-native-maps/-/react-native-maps-1.7.1.tgz"
   integrity sha512-CHVLzL+Q2jiUGgbt4/vosxVI1SukWyaLGjD62VLgR/wZpnH4Umi9ql1bmKDPWcfj2C1QZwMU0Yc7rXTbvZUIiw==
   dependencies:
     "@types/geojson" "^7946.0.10"

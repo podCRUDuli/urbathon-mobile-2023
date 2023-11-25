@@ -5,12 +5,20 @@ import { useAuth } from '../../authProvider';
 import { UniversalView } from '../../components/UniversalView';
 
 const SignUpPage = ({ navigation }) => {
-  const [name, setName] = useState('');
+  const [last_name, setLastName] = useState('');
+  const [first_name, setFirstName] = useState('');
+  const [patronymic, setMiddleName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
   const blankFields = Boolean(
-    name === '' || email === '' || password === '' || rePassword === '',
+    last_name === '' ||
+      first_name === '' ||
+      patronymic === '' ||
+      email === '' ||
+      password === '' ||
+      rePassword === '',
   );
   const { state, api } = useAuth();
 
@@ -48,14 +56,36 @@ const SignUpPage = ({ navigation }) => {
       safe>
       <YStack space="$2.5">
         <YStack>
-          <Text>ФИО</Text>
+          <Text>Фамилия</Text>
           <Input
-            placeholder="Введите ФИО"
+            placeholder="Введите фамилию"
             inputMode="text"
             autoComplete="name"
             autoCapitalize="none"
-            onChangeText={setName}
-            value={name}
+            onChangeText={setLastName}
+            value={last_name}
+          />
+        </YStack>
+        <YStack>
+          <Text>Имя</Text>
+          <Input
+            placeholder="Введите имя"
+            inputMode="text"
+            autoComplete="name"
+            autoCapitalize="none"
+            onChangeText={setFirstName}
+            value={first_name}
+          />
+        </YStack>
+        <YStack>
+          <Text>Отчество</Text>
+          <Input
+            placeholder="Введите отчество"
+            inputMode="text"
+            autoComplete="name"
+            autoCapitalize="none"
+            onChangeText={setMiddleName}
+            value={patronymic}
           />
         </YStack>
         <YStack>
@@ -67,6 +97,17 @@ const SignUpPage = ({ navigation }) => {
             autoCapitalize="none"
             onChangeText={setEmail}
             value={email}
+          />
+        </YStack>
+        <YStack>
+          <Text>Номер телефона</Text>
+          <Input
+            placeholder="Введите номер телефона"
+            inputMode="tel"
+            autoComplete="tel"
+            autoCapitalize="none"
+            onChangeText={setPhone}
+            value={phone}
           />
         </YStack>
         <YStack>

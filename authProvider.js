@@ -91,7 +91,14 @@ function AuthProvider({ children }) {
             );
             dispatch({
               type: LOGIN_SUCCESS,
-              payload: { name: response.data.Name, email: response.data.email },
+              payload: {
+                id: response.data.id,
+                last_name: response.data.last_name,
+                first_name: response.data.first_name,
+                patronymic: response.data.patronymic,
+                phone: response.data.phone,
+                email: response.data.email,
+              },
             });
             resolve();
           } catch (error) {
@@ -126,7 +133,14 @@ function AuthProvider({ children }) {
         const response = await axios.post(`${BASE_API_URL}/api/auth/test`);
         dispatch({
           type: USER_LOADED_SUCCESS,
-          payload: { name: response.data.Name, email: response.data.Email },
+          payload: {
+            id: response.data.id,
+            last_name: response.data.last_name,
+            first_name: response.data.first_name,
+            patronymic: response.data.patronymic,
+            phone: response.data.phone,
+            email: response.data.email,
+          },
         });
       } catch {
         dispatch({ type: USER_LOADED_FAIL });

@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTheme } from 'tamagui';
 
+import { AppealsListPage } from './AppealsList';
 import { AppealsMapPage } from './AppealsMap';
 import { NewsListPage } from './NewsList';
 import MapIcon from '../../assets/map.svg';
@@ -37,6 +38,14 @@ const BottomTabs = React.memo(({ colorScheme }) => {
         component={NewsListPage}
         options={{
           title: 'Новости',
+          tabBarIcon: ({ color }) => <NewsIcon fill={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="appeals-list"
+        component={AppealsListPage}
+        options={{
+          title: 'Обращения',
           tabBarIcon: ({ color }) => <NewsIcon fill={color} />,
         }}
       />
