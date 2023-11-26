@@ -1,6 +1,7 @@
 import axios from 'axios';
+import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from 'react';
-import { Dimensions, Modal, Image } from 'react-native';
+import { Dimensions, Modal, Image, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
@@ -16,9 +17,15 @@ import {
   Paragraph,
   Square,
   Circle,
+  Theme,
+  Input,
 } from 'tamagui';
 
+import AddPhotoIcon from '../../assets/add-photo.svg';
 import ChevronDownIcon from '../../assets/chevron-down.svg';
+import DeleteIcon from '../../assets/delete.svg';
+import SendIcon from '../../assets/send.svg';
+import { useAuth } from '../../authProvider';
 import { UniversalView } from '../../components/UniversalView';
 import { formatDate } from '../../utils/format';
 
@@ -27,6 +34,7 @@ const axiosInstance = axios.create({
 });
 
 const AppealDetailsPage = ({ route, navigation }) => {
+  const { state } = useAuth();
   const { appealId } = route.params;
   const [appeal, setAppeal] = useState(null);
   const [error, setError] = useState(false);
@@ -36,6 +44,8 @@ const AppealDetailsPage = ({ route, navigation }) => {
   const backgroundColor = theme.background.get();
   const borderColor = theme.borderColor.get();
   const color = theme.color.get();
+  const blue = theme.blue.get();
+  const red = theme.red.get();
   const { height, width } = Dimensions.get('window');
   const isLandscape = Boolean(height < width);
   const safeInsetLeft = isLandscape ? insets.left : 5;
@@ -46,6 +56,9 @@ const AppealDetailsPage = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [comments, setComments] = useState([]);
+  const [uploadedPhoto, setUploadedPhoto] = useState([]);
+  const [commentText, setCommentText] = useState('');
+
   const openModal = (imageUri) => {
     setSelectedImage(imageUri);
     setModalVisible(true);
@@ -85,6 +98,61 @@ const AppealDetailsPage = ({ route, navigation }) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const postComment = async () => {
+    if (commentText) {
+      const formData = new FormData();
+      formData.append('text', commentText);
+      uploadedPhoto.forEach((photo) => {
+        formData.append('photos', {
+          uri: photo.uri,
+          type: 'image/jpeg',
+          name: photo.name,
+        });
+      });
+
+      try {
+        const response = await axiosInstance.post(
+          `api/appeal/${appealId}/comment`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        );
+        setComments((prevComments) => [response.data, ...prevComments]);
+        setUploadedPhoto([]);
+        setCommentText('');
+        alert('Комментарий успешно отправлен');
+      } catch (error) {
+        console.error(error);
+        alert('Ошибка при отправлении комментария');
+      }
+    } else {
+      alert('Текст сообщения не может быть пустым');
+    }
+  };
+
+  const pickImageAsync = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.5,
+      aspect: [4, 3],
+      allowsMultipleSelection: true,
+    });
+
+    if (result.assets) {
+      setUploadedPhoto([
+        ...uploadedPhoto,
+        ...result.assets.map((item) => ({
+          uri: item.uri,
+          type: 'image/jpeg',
+          name: item.fileName,
+        })),
+      ]);
+    }
+  };
 
   return (
     <UniversalView>
@@ -252,6 +320,67 @@ const AppealDetailsPage = ({ route, navigation }) => {
                       </XStack>
                     );
                   })}
+
+                  {state.isAuthenticated ? (
+                    <XStack
+                      alignItems="center"
+                      width="100%"
+                      space={5}>
+                      <Input
+                        multiline
+                        flex={3}
+                        placeholder="Введите текст сообщения"
+                        value={commentText}
+                        onChangeText={setCommentText}
+                      />
+                      {commentText !== '' ? (
+                        <TouchableOpacity
+                          style={{ padding: 5 }}
+                          onPress={postComment}>
+                          <SendIcon
+                            width={30}
+                            height={30}
+                            fill={color}
+                          />
+                        </TouchableOpacity>
+                      ) : null}
+                      {uploadedPhoto.length ? (
+                        <TouchableOpacity
+                          style={{ padding: 5 }}
+                          onPress={() => setUploadedPhoto([])}>
+                          <DeleteIcon
+                            width={30}
+                            height={30}
+                            fill={red}
+                          />
+                        </TouchableOpacity>
+                      ) : null}
+
+                      <TouchableOpacity
+                        style={{ padding: 5, position: 'relative' }}
+                        onPress={pickImageAsync}>
+                        <AddPhotoIcon
+                          width={30}
+                          height={30}
+                          fill={blue}
+                        />
+                        <Circle
+                          position="absolute"
+                          size={15}
+                          right={0}
+                          bottom={0}
+                          backgroundColor={color}
+                          justifyContent="center"
+                          alignItems="center">
+                          <Text
+                            color="$backgroundStrong"
+                            fontSize={10}>
+                            {uploadedPhoto.length}
+                          </Text>
+                        </Circle>
+                      </TouchableOpacity>
+                    </XStack>
+                  ) : null}
                 </Accordion.Content>
               </Accordion.Item>
             </Accordion>
