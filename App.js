@@ -15,6 +15,10 @@ import { AuthProvider } from './authProvider';
 import { Router } from './components/Router';
 import config from './tamagui.config';
 
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); 
+LogBox.ignoreAllLogs();
+
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {

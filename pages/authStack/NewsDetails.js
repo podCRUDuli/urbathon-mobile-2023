@@ -69,6 +69,7 @@ const NewsDetailsPage = ({ route, navigation }) => {
         `/api/news/${newsId}/poll_vote/${optionId}`,
       );
       setVote(optionId);
+      setNews({...news, ...news.poll})
       setTotalVotes((prevTotalVotes) => prevTotalVotes + 1);
     } catch (error) {
       console.error(error);
@@ -137,7 +138,7 @@ const NewsDetailsPage = ({ route, navigation }) => {
                             key={option.id}
                             value={option.id}
                             label={option.title}
-                            votes={option.votes}
+                            votes={option == vote ? option.votes + 1 : option.votes}
                             totalVotes={totalVotes}
                           />
                         );
