@@ -1,24 +1,20 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Dimensions, Modal, Image } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { Dimensions, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   Button,
   Text,
   YStack,
-  XStack,
   useTheme,
   ScrollView,
   H6,
-  View,
-  Accordion,
   Paragraph,
-  Square,
-  Circle,
+  RadioGroup,
 } from 'tamagui';
 
-import ChevronDownIcon from '../../assets/chevron-down.svg';
+import { useAuth } from '../../authProvider';
+import { RadioGroupItemWithLabel } from '../../components/RadioGroupItemWithLabel';
 import { UniversalView } from '../../components/UniversalView';
 import { formatDate } from '../../utils/format';
 
@@ -27,6 +23,7 @@ const axiosInstance = axios.create({
 });
 
 const NewsDetailsPage = ({ route, navigation }) => {
+  const { state, api } = useAuth();
   const { newsId } = route.params;
   const [news, setNews] = useState(null);
   const [error, setError] = useState(false);
@@ -36,21 +33,48 @@ const NewsDetailsPage = ({ route, navigation }) => {
   const backgroundColor = theme.background.get();
   const borderColor = theme.borderColor.get();
   const { height, width } = Dimensions.get('window');
-  const imgWidth = width - (height < width ? insets.left : 5) * 2 - 20;
-  
-  const fetchAppeal = async () => {
+  const isLandscape = Boolean(height < width);
+  const safeInsetLeft = isLandscape ? insets.left : 5;
+  const safeInsetRight = isLandscape ? insets.left : 5;
+  const imgWidth = width - (safeInsetLeft + safeInsetRight) - 20;
+  const [vote, setVote] = useState(null);
+  const [totalVotes, setTotalVotes] = useState(0);
+
+  const fetchNews = async () => {
     try {
       const response = await axiosInstance.get(`/api/news/${newsId}`);
       setNews(response.data);
       setError(false);
-    } catch {
+      if (response.data.poll) {
+        response.data.poll.options.forEach((option) => {
+          if (option.is_user_voted) {
+            setVote(option.id);
+          }
+          setTotalVotes((prevTotalVotes) => prevTotalVotes + option.votes);
+        });
+      }
+    } catch (error) {
+      console.error(error);
       setError(true);
     }
   };
 
   useEffect(() => {
-    fetchAppeal();
+    fetchNews();
   }, []);
+
+  const postVote = async (optionId) => {
+    try {
+      const response = await axiosInstance.post(
+        `/api/news/${newsId}/poll_vote/${optionId}`,
+      );
+      setVote(optionId);
+      setTotalVotes((prevTotalVotes) => prevTotalVotes + 1);
+    } catch (error) {
+      console.error(error);
+      alert('Ошибка при голосовании');
+    }
+  };
 
   return (
     <UniversalView>
@@ -59,15 +83,15 @@ const NewsDetailsPage = ({ route, navigation }) => {
           yCenter
           xCenter>
           <Text>Ошибка загрузки</Text>
-          <Button onPress={fetchAppeal}>Повторить</Button>
+          <Button onPress={fetchNews}>Повторить</Button>
         </UniversalView>
       ) : news ? (
         <ScrollView
           backgroundColor="$backgroundStrong"
           contentContainerStyle={{
             paddingBottom: insets.bottom,
-            paddingLeft: height < width ? insets.left : 5,
-            paddingRight: height < width ? insets.right : 5,
+            paddingLeft: safeInsetLeft,
+            paddingRight: safeInsetRight,
           }}
           showsVerticalScrollIndicator={false}>
           <YStack space="$2.5">
@@ -79,16 +103,50 @@ const NewsDetailsPage = ({ route, navigation }) => {
               borderRadius={10}
               paddingHorizontal={10}
               paddingVertical={10}>
-                <YStack width={imgWidth} height={imgWidth}>
+              <YStack
+                width={imgWidth}
+                height={imgWidth}>
                 <Image
-                                    source={{ uri: news.photo_url }}
-                                    style={{ width: '100%', height: '100%' }}
-                                    resizeMode="cover"
-                                  />
-                </YStack>
-                <Text alignSelf='flex-end' color={borderColor}>{formatDate(news.date)}</Text>
-                <Paragraph>{news.body}</Paragraph>
+                  source={{ uri: news.photo_url }}
+                  style={{ width: '100%', height: '100%' }}
+                  resizeMode="cover"
+                />
               </YStack>
+              <Text alignSelf="flex-end">{formatDate(news.date)}</Text>
+              <Paragraph>{news.body}</Paragraph>
+            </YStack>
+            {news.poll ? (
+              <YStack>
+                <H6>{news.poll.title}</H6>
+                <YStack
+                  space="$2.5"
+                  backgroundColor="$background"
+                  borderColor
+                  borderWidth={1}
+                  borderRadius={10}
+                  paddingHorizontal={10}
+                  paddingVertical={10}>
+                  <RadioGroup
+                    disabled={!!(vote || !state.isAuthenticated)}
+                    value={vote ?? null}
+                    onValueChange={postVote}>
+                    <YStack space="$2">
+                      {news.poll.options.map((option) => {
+                        return (
+                          <RadioGroupItemWithLabel
+                            key={option.id}
+                            value={option.id}
+                            label={option.title}
+                            votes={option.votes}
+                            totalVotes={totalVotes}
+                          />
+                        );
+                      })}
+                    </YStack>
+                  </RadioGroup>
+                </YStack>
+              </YStack>
+            ) : null}
           </YStack>
         </ScrollView>
       ) : null}

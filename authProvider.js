@@ -127,27 +127,38 @@ function AuthProvider({ children }) {
     [],
   );
 
-  useEffect(() => {
-    const bootstrapAsync = async () => {
-      try {
-        const response = await axios.post(`${BASE_API_URL}/api/auth/test`);
-        dispatch({
-          type: USER_LOADED_SUCCESS,
-          payload: {
-            id: response.data.id,
-            last_name: response.data.last_name,
-            first_name: response.data.first_name,
-            patronymic: response.data.patronymic,
-            phone: response.data.phone,
-            email: response.data.email,
-          },
-        });
-      } catch {
-        dispatch({ type: USER_LOADED_FAIL });
-      }
-    };
+  const bootstrapAsync = async () => {
+    try {
+      const response = await axios.post(`${BASE_API_URL}/api/auth/test`);
+      dispatch({
+        type: USER_LOADED_SUCCESS,
+        payload: {
+          id: response.data.id,
+          last_name: response.data.last_name,
+          first_name: response.data.first_name,
+          patronymic: response.data.patronymic,
+          phone: response.data.phone,
+          email: response.data.email,
+        },
+      });
+    } catch {
+      dispatch({ type: USER_LOADED_FAIL });
+    }
+  };
 
+  useEffect(() => {
     bootstrapAsync();
+
+    const intervalId = setInterval(
+      () => {
+        bootstrapAsync();
+      },
+      15 * 60 * 1000,
+    );
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   return (

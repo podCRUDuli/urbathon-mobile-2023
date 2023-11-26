@@ -5,3 +5,8 @@ export const formatDate = (date) => {
   }).format(originalDate);
   return formattedDate;
 };
+
+export const formatCountVotes = (votes, totalVotes) => {
+  if (votes === 0 || totalVotes === 0) return;
+  return `${Number((votes / totalVotes) * 100).toFixed(1)}%`;
+};

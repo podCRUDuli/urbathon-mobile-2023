@@ -4,6 +4,7 @@ import { useTheme } from 'tamagui';
 import { AppealsListPage } from './AppealsList';
 import { AppealsMapPage } from './AppealsMap';
 import { NewsListPage } from './NewsList';
+import AppealsIcon from '../../assets/appeals.svg';
 import MapIcon from '../../assets/map.svg';
 import NewsIcon from '../../assets/news.svg';
 import ProfileIcon from '../../assets/profile.svg';
@@ -46,7 +47,13 @@ const BottomTabs = React.memo(({ colorScheme }) => {
         component={AppealsListPage}
         options={{
           title: 'Обращения',
-          tabBarIcon: ({ color }) => <NewsIcon fill={color} />,
+          tabBarIcon: ({ color }) => (
+            <AppealsIcon
+              width={24}
+              height={24}
+              fill={color}
+            />
+          ),
         }}
       />
       <Tabs.Screen
