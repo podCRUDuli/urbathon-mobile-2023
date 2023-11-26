@@ -8,15 +8,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {
-  H6,
-  ListItem,
-  useTheme,
-  Label,
-  ToggleGroup,
-  XStack,
-  Text,
-} from 'tamagui';
+import { H6, ListItem, useTheme, Text, XStack } from 'tamagui';
 
 import { useAuth } from '../../authProvider';
 import { RequestsList } from '../../components/RequestsList';
@@ -26,18 +18,23 @@ const axiosInstance = axios.create({
   baseURL: 'http://176.222.53.146:8080',
 });
 
+const appealBackgroundColors = {
+  'В работе': '$blue',
+  Решено: '$green',
+  Отклонено: '$red',
+  Подтверждается: '$yellow',
+  Запланировано: '$borderColor',
+};
+
 const AppealsListPage = ({ navigation }) => {
   const theme = useTheme();
   const color = theme.color.get();
   const insets = useSafeAreaInsets();
   const [isOpen, setIsOpen] = useState(false);
   const [appeals, setAppeals] = useState([]);
-  const [selectedAppeal, setSelectedAppeal] = useState(null);
-  const [appealTypes, setAppealTypes] = useState([]);
   const [nextPage, setNextPage] = useState(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { state } = useAuth();
 
   const fetchAppeals = async () => {
     setIsRefreshing(true);
@@ -52,26 +49,9 @@ const AppealsListPage = ({ navigation }) => {
     }
   };
 
-  const fetchAppealTypes = async () => {
-    try {
-      const response = await axiosInstance
-        .get(`/api/appeal_type`)
-        .then((response) => {
-          setAppealTypes(response.data);
-        });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchData = async () => {
-    await fetchAppeals();
-    await fetchAppealTypes();
-  };
-
   useEffect(() => {
-    fetchData();
-  }, [navigation]);
+    fetchAppeals();
+  }, []);
 
   const loadMoreAppeals = debounce(() => {
     if (!isLoading && nextPage) {
@@ -91,18 +71,33 @@ const AppealsListPage = ({ navigation }) => {
   const renderItem = useCallback(
     ({ item }) => (
       <ListItem
-        title={<H6>{item.title}</H6>}
+        title={
+          <XStack
+            justifyContent="space-between"
+            alignItems="center"
+            width="100%">
+            <H6>{item.title}</H6>
+            <XStack
+              backgroundColor={
+                appealBackgroundColors[item.appeal_status.status]
+              }
+              padding={5}
+              borderRadius={5}>
+              <Text>{item.appeal_status.status}</Text>
+            </XStack>
+          </XStack>
+        }
         subTitle={item.address}
         bordered
         borderRadius={10}
-        pressStyle={{ backgroundColor: '$backgroundPress' }}
+        pressTheme
         onPress={() =>
           navigation.navigate('appeal-details', {
             appealId: item.id,
             title: item.title,
           })
         }>
-        {item.description}
+        <Text>{item.description}</Text>
       </ListItem>
     ),
     [],
@@ -138,7 +133,7 @@ const AppealsListPage = ({ navigation }) => {
           }}
           refreshControl={
             <RefreshControl
-              onRefresh={fetchData}
+              onRefresh={fetchAppeals}
               refreshing={isRefreshing}
               tintColor={color}
             />

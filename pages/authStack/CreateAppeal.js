@@ -53,6 +53,10 @@ const CreateAppealPage = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [photos, setPhotos] = useState([]);
   const { height, width } = Dimensions.get('window');
+  const isLandscape = Boolean(height < width);
+  const safeInsetLeft = isLandscape ? insets.left : 5;
+  const safeInsetRight = isLandscape ? insets.left : 5;
+  const imgSize = width / 3 - (safeInsetLeft + safeInsetRight);
   const LATITUDE_DELTA = 0.01;
   const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
   const [isSended, setIsSended] = useState(false);
@@ -267,14 +271,8 @@ const CreateAppealPage = ({ navigation }) => {
       backgroundColor="$backgroundStrong"
       contentContainerStyle={{
         paddingBottom: insets.bottom,
-        paddingLeft:
-          Dimensions.get('screen').height < Dimensions.get('screen').width
-            ? insets.left
-            : 5,
-        paddingRight:
-          Dimensions.get('screen').height < Dimensions.get('screen').width
-            ? insets.right
-            : 5,
+        paddingLeft: safeInsetLeft,
+        paddingRight: safeInsetRight,
       }}
       showsVerticalScrollIndicator={false}>
       <YStack space="$2.5">
@@ -371,8 +369,8 @@ const CreateAppealPage = ({ navigation }) => {
               return (
                 <View
                   key={i.toString()}
-                  w={Dimensions.get('window').width / 3 - 10}
-                  h={Dimensions.get('window').width / 3 - 10}
+                  w={imgSize}
+                  h={imgSize}
                   onLongPress={() => openModal(item)}>
                   <Image
                     source={{ uri: item.uri }}
@@ -389,7 +387,7 @@ const CreateAppealPage = ({ navigation }) => {
             {photos.length ? (
               <Button
                 flex={1}
-                backgroundColor="red"
+                backgroundColor="#eb2d3a"
                 onPress={() => setPhotos([])}>
                 Очистить
               </Button>
@@ -424,7 +422,7 @@ const CreateAppealPage = ({ navigation }) => {
                 }}
                 style={{
                   width: '100%',
-                  height: Dimensions.get('screen').height / 2,
+                  height: height / 2,
                   borderRadius: 10,
                 }}>
                 <Marker
@@ -460,13 +458,8 @@ const CreateAppealPage = ({ navigation }) => {
               backgroundColor: `${backgroundStrongColor}80`,
             }}>
             <View
-              w={Dimensions.get('screen').width - 20}
-              h={
-                Dimensions.get('screen').height -
-                insets.top -
-                insets.bottom -
-                20
-              }>
+              w={width}
+              h={height - insets.top - insets.bottom}>
               <Image
                 source={{ uri: selectedImage?.uri }}
                 style={{ flex: 1, width: '100%', height: '100%' }}

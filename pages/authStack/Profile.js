@@ -1,13 +1,4 @@
-import { Dimensions } from 'react-native';
-import {
-  Button,
-  Text,
-  Circle,
-  YStack,
-  XStack,
-  SizableText,
-  Progress,
-} from 'tamagui';
+import { Button, Text, Circle, YStack, XStack, Progress } from 'tamagui';
 
 import { useAuth } from '../../authProvider';
 import { UniversalView } from '../../components/UniversalView';
@@ -27,8 +18,7 @@ const ProfilePage = ({ navigation }) => {
             borderWidth={1}
             borderColor
             borderRadius={10}
-            padding={10}
-            marginHorizontal={10}>
+            padding={10}>
             <Circle
               width={100}
               height={100}
@@ -117,7 +107,6 @@ const ProfilePage = ({ navigation }) => {
           </XStack>
         ) : null}
         <Button
-          marginHorizontal={10}
           onPress={() =>
             state.isAuthenticated
               ? api.logout()

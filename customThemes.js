@@ -29,6 +29,10 @@ const themesBuilder = createThemeBuilder()
       placeholderColor: '#a1a1a1',
       shadowColor: '#a1a1a1',
       highlightColor: 9,
+      red: '#481A1D',
+      green: '#123123',
+      yellow: '#352900',
+      blue: '#112A4D',
     },
     baseLight: {
       background: '#c9c9c9',
@@ -43,6 +47,10 @@ const themesBuilder = createThemeBuilder()
       placeholderColor: '#545454',
       shadowColor: '#545454',
       highlightColor: 9,
+      red: '#FCE2E1',
+      green: '#DCF1E2',
+      yellow: '#FCF5BA',
+      blue: '#E1F0FE',
     },
   })
   .addMasks({

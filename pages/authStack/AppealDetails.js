@@ -35,7 +35,12 @@ const AppealDetailsPage = ({ route, navigation }) => {
   const backgroundStrongColor = theme.backgroundStrong.get();
   const backgroundColor = theme.background.get();
   const borderColor = theme.borderColor.get();
+  const color = theme.color.get();
   const { height, width } = Dimensions.get('window');
+  const isLandscape = Boolean(height < width);
+  const safeInsetLeft = isLandscape ? insets.left : 5;
+  const safeInsetRight = isLandscape ? insets.left : 5;
+  const imgSize = width / 3 - (safeInsetLeft + safeInsetRight + 10);
   const LATITUDE_DELTA = 0.01;
   const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
   const [modalVisible, setModalVisible] = useState(false);
@@ -95,14 +100,8 @@ const AppealDetailsPage = ({ route, navigation }) => {
           backgroundColor="$backgroundStrong"
           contentContainerStyle={{
             paddingBottom: insets.bottom,
-            paddingLeft:
-              Dimensions.get('screen').height < Dimensions.get('screen').width
-                ? insets.left
-                : 5,
-            paddingRight:
-              Dimensions.get('screen').height < Dimensions.get('screen').width
-                ? insets.right
-                : 5,
+            paddingLeft: safeInsetLeft,
+            paddingRight: safeInsetRight,
           }}
           showsVerticalScrollIndicator={false}>
           <YStack space="$2.5">
@@ -130,31 +129,14 @@ const AppealDetailsPage = ({ route, navigation }) => {
                 <H6>Фотографии</H6>
                 <XStack
                   flexWrap="wrap"
-                  gap={10}>
+                  gap={10}
+                  justifyContent="space-between">
                   {appeal.appeal_photos.map((item, i) => {
                     return (
                       <View
                         key={i.toString()}
-                        w={
-                          Dimensions.get('window').width / 3 -
-                          (Dimensions.get('screen').height <
-                          Dimensions.get('screen').width
-                            ? insets.left
-                            : 5 + Dimensions.get('screen').height <
-                                Dimensions.get('screen').width
-                              ? insets.right
-                              : 5 + 13)
-                        }
-                        h={
-                          Dimensions.get('window').width / 3 -
-                          (Dimensions.get('screen').height <
-                          Dimensions.get('screen').width
-                            ? insets.left
-                            : 5 + Dimensions.get('screen').height <
-                                Dimensions.get('screen').width
-                              ? insets.right
-                              : 5 + 13)
-                        }
+                        w={imgSize}
+                        h={imgSize}
                         onLongPress={() => openModal(item)}>
                         <Image
                           source={{ uri: item.url }}
@@ -185,7 +167,7 @@ const AppealDetailsPage = ({ route, navigation }) => {
                     }}
                     style={{
                       width: '100%',
-                      height: Dimensions.get('screen').height / 2,
+                      height: height / 2,
                       borderRadius: 10,
                     }}>
                     <Marker
@@ -193,10 +175,6 @@ const AppealDetailsPage = ({ route, navigation }) => {
                         latitude: appeal.latitude,
                         longitude: appeal.longitude,
                       }}
-                      draggable
-                      onDragEnd={(e) =>
-                        setCoordinates(e.nativeEvent.coordinate)
-                      }
                     />
                   </MapView>
                 </View>
@@ -220,7 +198,7 @@ const AppealDetailsPage = ({ route, navigation }) => {
                       <Square
                         animation="quick"
                         rotate={open ? '180deg' : '0deg'}>
-                        <ChevronDownIcon />
+                        <ChevronDownIcon fill={color} />
                       </Square>
                     </>
                   )}
@@ -255,8 +233,8 @@ const AppealDetailsPage = ({ route, navigation }) => {
                               return (
                                 <View
                                   key={i.toString()}
-                                  w={Dimensions.get('window').width / 3 - 10}
-                                  h={Dimensions.get('window').width / 3 - 10}
+                                  w={imgSize}
+                                  h={imgSize}
                                   onLongPress={() => openModal(item)}>
                                   <Image
                                     source={{ uri: item.url }}
@@ -294,10 +272,8 @@ const AppealDetailsPage = ({ route, navigation }) => {
             backgroundColor: `${backgroundStrongColor}80`,
           }}>
           <View
-            w={Dimensions.get('screen').width}
-            h={
-              Dimensions.get('screen').height - insets.top - insets.bottom - 20
-            }>
+            w={width}
+            h={height - insets.top - insets.bottom}>
             <Image
               source={{ uri: selectedImage?.url }}
               style={{ flex: 1, width: '100%', height: '100%' }}
