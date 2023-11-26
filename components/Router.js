@@ -4,11 +4,11 @@ import { StatusBar } from 'expo-status-bar';
 import { useTheme } from 'tamagui';
 
 import { GoBackBtn } from './GoBackBtn';
-import { AppealDetailsPage } from '../pages/authStack/AppealDetails';
-import { CreateAppealPage } from '../pages/authStack/CreateAppeal';
-import { NewsDetailsPage } from '../pages/authStack/NewsDetails';
-import { SignInPage } from '../pages/authStack/SignIn';
-import { SignUpPage } from '../pages/authStack/SignUp';
+import { AppealDetailsPage } from '../pages/stack/AppealDetails';
+import { CreateAppealPage } from '../pages/stack/CreateAppeal';
+import { NewsDetailsPage } from '../pages/stack/NewsDetails';
+import { SignInPage } from '../pages/stack/SignIn';
+import { SignUpPage } from '../pages/stack/SignUp';
 import { BottomTabs } from '../pages/bottomTabs/Tabs';
 
 const Stack = createNativeStackNavigator();

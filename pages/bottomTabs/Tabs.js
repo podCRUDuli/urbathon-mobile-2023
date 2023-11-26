@@ -8,7 +8,7 @@ import AppealsIcon from '../../assets/appeals.svg';
 import MapIcon from '../../assets/map.svg';
 import NewsIcon from '../../assets/news.svg';
 import ProfileIcon from '../../assets/profile.svg';
-import { ProfilePage } from '../authStack/Profile';
+import { ProfilePage } from './Profile';
 
 const Tabs = createBottomTabNavigator();
 
