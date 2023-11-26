@@ -6,42 +6,50 @@ import {
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { Suspense, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { TamaguiProvider, Text, Theme } from 'tamagui';
+import { TamaguiProvider, Theme } from 'tamagui';
 
+import { AuthProvider } from './authProvider';
 import { Router } from './components/Router';
 import config from './tamagui.config';
 
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); 
+LogBox.ignoreAllLogs();
+
+SplashScreen.preventAutoHideAsync();
+
 export default function Layout() {
   const colorScheme = useColorScheme();
-
-  const [loaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
   });
 
   useEffect(() => {
-    if (loaded) {
+    if (fontsLoaded || fontError) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded, fontError]);
 
-  if (!loaded) return null;
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   return (
-    <SafeAreaProvider>
+    <AuthProvider>
       <TamaguiProvider config={config}>
-        <Suspense fallback={<Text>Loading...</Text>}>
-          <Theme name={colorScheme}>
-            <ThemeProvider
-              value={colorScheme === 'light' ? DefaultTheme : DarkTheme}>
+        <Theme name={colorScheme}>
+          <ThemeProvider
+            value={colorScheme === 'light' ? DefaultTheme : DarkTheme}>
+            <SafeAreaProvider>
               <Router colorScheme={colorScheme} />
-            </ThemeProvider>
-          </Theme>
-        </Suspense>
+            </SafeAreaProvider>
+          </ThemeProvider>
+        </Theme>
       </TamaguiProvider>
-    </SafeAreaProvider>
+    </AuthProvider>
   );
 }

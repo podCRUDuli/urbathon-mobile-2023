@@ -1,8 +1,10 @@
 import { createAnimations } from '@tamagui/animations-react-native';
 import { createInterFont } from '@tamagui/font-inter';
 import { shorthands } from '@tamagui/shorthands';
-import { themes, tokens } from '@tamagui/themes';
+import { tokens } from '@tamagui/themes';
 import { createTamagui } from 'tamagui';
+
+import { themes } from './customThemes';
 
 const animations = createAnimations({
   bouncy: {
@@ -27,9 +29,9 @@ const animations = createAnimations({
 const headingFont = createInterFont();
 const bodyFont = createInterFont();
 
-const config = createTamagui({
+const appConfig = createTamagui({
   animations,
-  defaultTheme: 'dark',
+  defaultTheme: 'light',
   shouldAddPrefersColorThemes: false,
   shorthands,
   fonts: {
@@ -40,10 +42,10 @@ const config = createTamagui({
   tokens,
 });
 
-export type AppConfig = typeof config;
+export type AppConfig = typeof appConfig;
 
 declare module 'tamagui' {
   interface TamaguiCustomConfig extends AppConfig {}
 }
 
-export default config;
+export default appConfig;
