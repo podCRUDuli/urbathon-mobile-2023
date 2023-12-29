@@ -4,7 +4,7 @@
 
 ## Демонстрация
 
-[Demo]https://github.com/podCRUDuli/urbathon-mobile-2023/assets/114585601/5b203a8c-ec2e-456b-a91a-2ec25493c0b3
+https://github.com/podCRUDuli/urbathon-mobile-2023/assets/114585601/5b203a8c-ec2e-456b-a91a-2ec25493c0b3
 
 ## Особенности
 - Авторизация
